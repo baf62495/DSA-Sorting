@@ -183,4 +183,48 @@ function partition(array, start, end) {
   return j;
 }
 
-console.log(qSort(DATA));
+console.log('quicksort:', qSort(DATA));
+
+// 4. Implementing merge sort
+
+// Write a function mSort that sorts the dataset above using the merge sort algorithm.
+
+function mSort(array) {
+  if (array.length <= 1) {
+    return array;
+  }
+
+  const middle = Math.floor(array.length / 2); // get middle of array
+  let left = array.slice(0, middle); // break array down to a 'left' array
+  let right = array.slice(middle, array.length); // break array down to a 'right' array
+
+  left = mSort(left); // recursively sort half until length of 0 or 1
+  right = mSort(right); // recursively sort half until length of 0 or 1
+
+  return merge(left, right, array); // merge the 2 sorted halves
+}
+
+function merge(left, right, array) {
+  let leftIndex = 0;
+  let rightIndex = 0;
+  let outputIndex = 0;
+
+  while (leftIndex < left.length && rightIndex < right.length) {
+    if (left[leftIndex] < right[rightIndex]) {
+      array[outputIndex++] = left[leftIndex++];
+    } else {
+      array[outputIndex++] = right[rightIndex++];
+    }
+  }
+
+  for (let i = leftIndex; i < left.length; i++) {
+    array[outputIndex++] = left[i];
+  }
+
+  for (let i = rightIndex; i < right.length; i++) {
+    array[outputIndex++] = right[i];
+  }
+  return array;
+}
+
+console.log('mergesort:', mSort(DATA));
